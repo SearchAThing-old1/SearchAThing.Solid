@@ -17,6 +17,10 @@ Follow thirdy part libraries are used:
 - tcltk [ActiveTcl Community License Agreement](LICENSE.Thirdy/tcltk/license-at8.6-thread.terms.txt)
 - vtk [Copyright (c) 1993-2008 Ken Martin, Will Schroeder, Bill Lorensen](LICENSE.Thirdy/vtk/Copyright.txt)
 
+## Features
+
+This project is a working in progress and only some entities from the OpenCascade kernel are mapped ( actually there are fews and only those I need for my own projects ).
+
 ## Build
 
 ### Install OpenCascade
