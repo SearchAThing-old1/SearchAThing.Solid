@@ -1,7 +1,15 @@
 # Thirdy Part Components
 
-- OpenCascade ( http://www.opencascade.com/content/licensing )
-	- [License files](LICENSE.Thirdy/OpenCascade)
+SearchAThing.Solid project uses libraries from the following projects:
+
+- OpenCascade [LGPL-2.1](LICENSE.Thirdy/OpenCascade)
+- FreeImage [FreeImage Public License - Version 1.0](LICENSE.Thirdy/FreeImage/license-fi.txt)
+- FreeType [The FreeType Project LICENSE](LICENSE.Thirdy/Freetype/FTL.txt)
+- GL2PS [GL2PS LICENSE - Version 2, November 2003](LICENSE.Thirdy/Freetype/COPYING.GL2PS.txt)
+- Qt486 [LGPL 2.1](LICENSE.Thirdy/Qt486/LICENSE.LGPL.txt)
+- tbb [GPL](LICENSE.Thirdy/tbb/COPYING.txt) with exceptions (https://www.threadingbuildingblocks.org/licensing)
+- tcltk [ActiveTcl Community License Agreement](LICENSE.Thirdy/tcltk/license-at8.6-thread.terms.txt)
+- vtk [Copyright (c) 1993-2008 Ken Martin, Will Schroeder, Bill Lorensen](LICENSE.Thirdy/vtk/Copyright.txt)
 
 # SearchAThing.Solid
 
