@@ -49,10 +49,13 @@ using namespace System::Diagnostics;
 #include <BRepBuilderAPI_MakeEdge.hxx>
 #include <BRepBuilderAPI_MakeWire.hxx>
 #include <BRepBuilderAPI_MakeFace.hxx>
+#include <BRepBuilderAPI_MakePolygon.hxx>
+#include <TopoDS_Vertex.hxx>
 #include <TopoDS_Edge.hxx>
 #include <TopoDS_Wire.hxx>
 #include <TopoDS_Shape.hxx>
 #include <TopoDS_Face.hxx>
+#include <ShapeFix_ShapeTolerance.hxx>
 
 #include "_TopoDS_Shape.h"
 
@@ -73,6 +76,38 @@ namespace SearchAThing::Solid::Wrapper {
 		~_IGESControl_Writer()
 		{
 			delete m_Impl;
+		}
+
+		Standard_Boolean AddFace(
+			double tol,
+			double x1, double y1, double z1,
+			double x2, double y2, double z2,
+			double x3, double y3, double z3,
+			double x4, double y4, double z4)
+		{
+			auto p1 = gp_Pnt(x1, y1, z1);
+			auto p2 = gp_Pnt(x2, y2, z2);
+			auto p3 = gp_Pnt(x3, y3, z3);
+			auto p4 = gp_Pnt(x4, y4, z4);
+			BRepBuilderAPI_MakePolygon mp;
+			mp.Add(p1);
+			mp.Add(p2);
+			mp.Add(p3);
+			mp.Add(p4);
+			mp.Add(p1);
+			auto wire = mp.Wire();
+			ShapeFix_ShapeTolerance ftol;
+			ftol.SetTolerance(wire, tol, TopAbs_WIRE);
+			BRepBuilderAPI_MakeFace face;
+			do
+			{
+				face = BRepBuilderAPI_MakeFace(wire);
+				tol *= 1e1;
+				ftol.SetTolerance(wire, tol, TopAbs_WIRE);
+			} while (!face.IsDone());
+			auto shape = face.Shape();
+			
+			return m_Impl->AddShape(shape);
 		}
 
 		Standard_Boolean AddShape(_TopoDS_Shape ^sh)
