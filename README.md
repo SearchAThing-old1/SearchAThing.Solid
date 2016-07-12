@@ -99,7 +99,7 @@ TKXSDRAW.lib
 ```
 
 - Setup C# dll libraries using follow Property -> Build Events -> Pre-build event command line :
-    - if use the distribution libraries (w/out debug symbol) :
+    
 ```
 echo "Copy reference dlls..."
 xcopy /d /y C:\OpenCASCADE7.0.0-vc12-64\opencascade-7.0.0\win64\vc12\bin\*.* $(TargetDir)
@@ -112,19 +112,8 @@ xcopy /d /y C:\OpenCASCADE7.0.0-vc12-64\tcltk-86-64\bin\*.dll $(TargetDir)
 xcopy /d /y C:\OpenCASCADE7.0.0-vc12-64\vtk-6.1.0-vc12-64\bin\*.dll $(TargetDir)
 echo "done."
 ```
-    - if use a built from source version :
-```
-echo "Copy reference dlls..."
-xcopy /d /y C:\occt-amd64\win64\vc14\bind\*.* $(TargetDir)
-xcopy /d /y C:\OpenCASCADE7.0.0-vc12-64\tbb42_20140416oss\bin\intel64\vc12\*.dll $(TargetDir)
-xcopy /d /y C:\OpenCASCADE7.0.0-vc12-64\tbb42_20140416oss\bin\intel64\vc12\irml\*.dll $(TargetDir)
-xcopy /d /y C:\OpenCASCADE7.0.0-vc12-64\freeimage-3.17.0-vc12-64\bin\*.dll $(TargetDir)
-xcopy /d /y C:\OpenCASCADE7.0.0-vc12-64\freetype-2.5.5-vc12-64\bin\*.dll $(TargetDir)
-xcopy /d /y C:\OpenCASCADE7.0.0-vc12-64\gl2ps-1.3.8-vc12-64\bin\*.dll $(TargetDir)
-xcopy /d /y C:\OpenCASCADE7.0.0-vc12-64\tcltk-86-64\bin\*.dll $(TargetDir)
-xcopy /d /y C:\OpenCASCADE7.0.0-vc12-64\vtk-6.1.0-vc12-64\bin\*.dll $(TargetDir)
-echo "done."
-```
+
+- Enable **native code debugging** in your C# Project Properties -> Debug to enable debug of C++ code from `SearchAThing.Solid.Wrapper`
 
     This pre-build action ensure all required dll files available where the exe application will run.
 
