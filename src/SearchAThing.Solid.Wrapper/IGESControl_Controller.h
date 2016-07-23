@@ -38,31 +38,17 @@
 
 #pragma once
 
-#include <stdio.h>
-
-#include <gp_Pnt.hxx>
-
 #include <IGESControl_Controller.hxx>
-#include <IGESControl_Writer.hxx>
-#include <BRepBuilderAPI_MakeEdge.hxx>
-#include <BRepBuilderAPI_MakeWire.hxx>
-#include <BRepBuilderAPI_MakeFace.hxx>
-#include <TopoDS_Edge.hxx>
-#include <TopoDS_Wire.hxx>
-#include <TopoDS_Shape.hxx>
-#include <TopoDS_Face.hxx>
-
-using namespace System;
 
 namespace SearchAThing::Solid::Wrapper {
 
-	public ref class _IGESControl_Controller
+	public ref class IGESControl_Controller
 	{
 
 	public:
 		static void Init()
 		{
-			IGESControl_Controller::Init();
+			::IGESControl_Controller::Init();
 		}
 
 	};	 

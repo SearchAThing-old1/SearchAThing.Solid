@@ -24,25 +24,55 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="_gp_pnt.h">
+    <ClInclude Include="BRepBuilderAPI_MakeEdge.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="_IGESControl_Controller.h">
+    <ClInclude Include="gp_pnt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="_IGESControl_Writer.h">
+    <ClInclude Include="BRepFill.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="_BRepBuilderAPI_MakeEdge.h">
+    <ClInclude Include="TopoDS_Face.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="_BRepBuilderAPI_MakeWire.h">
+    <ClInclude Include="TopoDS_Shape.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="_BRepBuilderAPI_MakeFace.h">
+    <ClInclude Include="TopoDS_Edge.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="_TopoDS_Shape.h">
+    <ClInclude Include="BRepBuilderAPI_MakeShape.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BRepBuilderAPI_Command.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IGESControl_Controller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IGESControl_Writer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BRepLib_FindSurface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeomAPI_IntSS.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Geom_Surface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Geom_Curve.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TopoDS_Vertex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BRep_Tool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Standard_Transient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

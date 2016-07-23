@@ -155,16 +155,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BRepBuilderAPI_Command.h" />
+    <ClInclude Include="BRepBuilderAPI_MakeShape.h" />
+    <ClInclude Include="BRepLib_FindSurface.h" />
+    <ClInclude Include="BRep_Tool.h" />
+    <ClInclude Include="GeomAPI_IntSS.h" />
+    <ClInclude Include="Geom_Curve.h" />
+    <ClInclude Include="Geom_Surface.h" />
+    <ClInclude Include="IGESControl_Controller.h" />
+    <ClInclude Include="IGESControl_Writer.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SearchAThing.Solid.Wrapper.h" />
+    <ClInclude Include="Standard_Transient.h" />
     <ClInclude Include="Stdafx.h" />
-    <ClInclude Include="_BRepBuilderAPI_MakeEdge.h" />
-    <ClInclude Include="_BRepBuilderAPI_MakeFace.h" />
-    <ClInclude Include="_BRepBuilderAPI_MakeWire.h" />
-    <ClInclude Include="_gp_pnt.h" />
-    <ClInclude Include="_IGESControl_Controller.h" />
-    <ClInclude Include="_IGESControl_Writer.h" />
-    <ClInclude Include="_TopoDS_Shape.h" />
+    <ClInclude Include="BRepBuilderAPI_MakeEdge.h" />
+    <ClInclude Include="gp_pnt.h" />
+    <ClInclude Include="BRepFill.h" />
+    <ClInclude Include="TopoDS_Edge.h" />
+    <ClInclude Include="TopoDS_Face.h" />
+    <ClInclude Include="TopoDS_Shape.h" />
+    <ClInclude Include="TopoDS_Vertex.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />

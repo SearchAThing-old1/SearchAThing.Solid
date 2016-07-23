@@ -38,91 +38,46 @@
 
 #pragma once
 
+#include "Stdafx.h"
+#include "SearchAThing.Solid.Wrapper.h"
+
 using namespace msclr::interop;
 using namespace System;
 using namespace System::Diagnostics;
+using namespace System::Runtime::InteropServices;
 
-#include <gp_Pnt.hxx>
-
-#include <IGESControl_Controller.hxx>
 #include <IGESControl_Writer.hxx>
-#include <BRepBuilderAPI_MakeEdge.hxx>
-#include <BRepBuilderAPI_MakeWire.hxx>
-#include <BRepBuilderAPI_MakeFace.hxx>
-#include <BRepBuilderAPI_MakePolygon.hxx>
-#include <TopoDS_Vertex.hxx>
-#include <TopoDS_Edge.hxx>
-#include <TopoDS_Wire.hxx>
-#include <TopoDS_Shape.hxx>
-#include <TopoDS_Face.hxx>
-#include <ShapeFix_ShapeTolerance.hxx>
 
-#include "_TopoDS_Shape.h"
+#include "TopoDS_Shape.h"
+#include "Standard_Transient.h"
 
 namespace SearchAThing::Solid::Wrapper {
 
-	public ref class _IGESControl_Writer
+	public ref class IGESControl_Writer
 	{
 
 	public:
-		_IGESControl_Writer(String ^ _unit, const Standard_Integer modecr)
+		IGESControl_Writer(String ^ _unit, const Standard_Integer modecr)
 		{
 			string unit;
 			MarshalString(_unit, unit);
 
-			m_Impl = new IGESControl_Writer(unit.c_str(), modecr);
+			m_Impl = new ::IGESControl_Writer(unit.c_str(), modecr);
 		}
 
-		~_IGESControl_Writer()
+		~IGESControl_Writer()
 		{
 			delete m_Impl;
 		}
 
-		Standard_Boolean AddFace(
-			double tol,
-			double x1, double y1, double z1,
-			double x2, double y2, double z2,
-			double x3, double y3, double z3,
-			double x4, double y4, double z4)
+		Standard_Boolean AddShape(TopoDS_Shape ^sh)
 		{
-			auto p1 = gp_Pnt(x1, y1, z1);
-			auto p2 = gp_Pnt(x2, y2, z2);
-			auto p3 = gp_Pnt(x3, y3, z3);
-			auto p4 = gp_Pnt(x4, y4, z4);
-			BRepBuilderAPI_MakePolygon mp;
-			mp.Add(p1);
-			mp.Add(p2);
-			mp.Add(p3);
-			mp.Add(p4);
-			mp.Add(p1);
-			auto wire = mp.Wire();
-			ShapeFix_ShapeTolerance ftol;
-			ftol.SetTolerance(wire, tol, TopAbs_WIRE);
-			BRepBuilderAPI_MakeFace face;
-			do
-			{
-				face = BRepBuilderAPI_MakeFace(wire);
-				tol *= 1e1;
-				ftol.SetTolerance(wire, tol, TopAbs_WIRE);
-			} while (!face.IsDone());
-			auto shape = face.Shape();
-			
-			return m_Impl->AddShape(shape);
+			return m_Impl->AddShape(*(sh->ObjRef()));
 		}
 
-		Standard_Boolean AddShape(_TopoDS_Shape ^sh)
+		Standard_Boolean AddGeom(Standard_Transient^ obj)
 		{
-			return m_Impl->AddShape(*(sh->GetTopoDS_Shape()));
-		}
-
-		Standard_Boolean AddGeom(const Handle(Standard_Transient)& geom)
-		{
-			return m_Impl->AddGeom(geom);
-		}
-
-		Standard_Boolean AddEntity(const Handle(IGESData_IGESEntity)& ent)
-		{
-			return m_Impl->AddEntity(ent);
+			return m_Impl->AddGeom(obj->ObjRef());
 		}
 
 		void ComputeModel()
@@ -130,27 +85,31 @@ namespace SearchAThing::Solid::Wrapper {
 			m_Impl->ComputeModel();
 		}
 
-		Standard_Boolean Write(Standard_OStream& S, const Standard_Boolean fnes)
+		Standard_Boolean Write(Standard_OStream& S, [OptionalAttribute] Nullable<Standard_Boolean> fnes)
 		{
-			return m_Impl->Write(S, fnes);
+			if (!fnes.HasValue) fnes = false;
+
+			return m_Impl->Write(S, fnes.Value);
 		}
 
-		Standard_Boolean Write(String ^ _file, const Standard_Boolean fnes)
+		Standard_Boolean Write(String ^ _file, [OptionalAttribute] Nullable<bool> fnes)
 		{
+			if (!fnes.HasValue) fnes = false;
+
 			string file;
 			MarshalString(_file, file);
 
-			return m_Impl->Write(file.c_str(), fnes);
+			return m_Impl->Write(file.c_str(), fnes.Value);
 		}
 
 	protected:
-		!_IGESControl_Writer()
+		!IGESControl_Writer()
 		{
 			delete m_Impl;
 		}
 
 	private:
-		IGESControl_Writer *m_Impl;
+		::IGESControl_Writer *m_Impl;
 
 	};
 

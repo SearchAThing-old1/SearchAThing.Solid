@@ -38,53 +38,57 @@
 
 #pragma once
 
-#include <stdio.h>
-
 #include <gp_Pnt.hxx>
 
-#include <IGESControl_Controller.hxx>
-#include <IGESControl_Writer.hxx>
-#include <BRepBuilderAPI_MakeEdge.hxx>
-#include <BRepBuilderAPI_MakeWire.hxx>
-#include <BRepBuilderAPI_MakeFace.hxx>
-#include <TopoDS_Edge.hxx>
-#include <TopoDS_Wire.hxx>
-#include <TopoDS_Shape.hxx>
-#include <TopoDS_Face.hxx>
-
 using namespace System;
-
-#include "_gp_pnt.h"
+using namespace System::Globalization;
 
 namespace SearchAThing::Solid::Wrapper {
 
-	public ref class _BRepBuilderAPI_MakeEdge
+	public ref class gp_Pnt
 	{
 
 	public:
-		_BRepBuilderAPI_MakeEdge(_gp_Pnt ^p1, _gp_Pnt ^p2)
-		{			
-			m_Impl = new BRepBuilderAPI_MakeEdge(*(p1->ObjRef()), *(p2->ObjRef()));
+		gp_Pnt()
+		{
+			m_Impl = new ::gp_Pnt();
 		}
 
-		~_BRepBuilderAPI_MakeEdge()
+		gp_Pnt(::gp_Pnt *obj)
+		{
+			m_Impl = obj;
+		}
+
+		gp_Pnt(const Standard_Real Xp, const Standard_Real Yp, const Standard_Real Zp)
+		{
+			m_Impl = new ::gp_Pnt(Xp, Yp, Zp);
+		}
+
+		~gp_Pnt()
 		{
 			delete m_Impl;
 		}
 
-		BRepBuilderAPI_MakeEdge *ObjRef()
+		::gp_Pnt *ObjRef()
 		{
 			return m_Impl;
 		}
 
+		virtual String^ ToString() override
+		{
+			auto sb = gcnew System::Text::StringBuilder();
+			sb->AppendFormat(CultureInfo::InvariantCulture, "({0:0.####},{1:0.####},{2:0.####})", m_Impl->X(), m_Impl->Y(), m_Impl->Z());
+			return sb->ToString();
+		}
+
 	protected:
-		!_BRepBuilderAPI_MakeEdge()
+		!gp_Pnt()
 		{
 			delete m_Impl;
 		}
 
 	private:
-		BRepBuilderAPI_MakeEdge *m_Impl;
+		::gp_Pnt *m_Impl;
 
 	};
 

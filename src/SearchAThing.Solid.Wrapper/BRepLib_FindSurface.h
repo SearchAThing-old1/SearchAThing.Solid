@@ -38,57 +38,58 @@
 
 #pragma once
 
-#include <stdio.h>
-
-#include <gp_Pnt.hxx>
-
-#include <IGESControl_Controller.hxx>
-#include <IGESControl_Writer.hxx>
-#include <BRepBuilderAPI_MakeEdge.hxx>
-#include <BRepBuilderAPI_MakeWire.hxx>
-#include <BRepBuilderAPI_MakeFace.hxx>
-#include <TopoDS_Edge.hxx>
-#include <TopoDS_Wire.hxx>
-#include <TopoDS_Shape.hxx>
-#include <TopoDS_Face.hxx>
+#include "Stdafx.h"
 
 using namespace System;
+using namespace System::Runtime::InteropServices;
 
-#include "_BRepBuilderAPI_MakeEdge.h"
-#include "_gp_pnt.h"
+#include <BRepLib_FindSurface.hxx>
+
+#include "TopoDS_Shape.h"
+#include "Geom_Surface.h"
 
 namespace SearchAThing::Solid::Wrapper {
 
-	public ref class _BRepBuilderAPI_MakeWire
+	public ref class BRepLib_FindSurface
 	{
 
 	public:
-		_BRepBuilderAPI_MakeWire(_BRepBuilderAPI_MakeEdge ^e1,
-			_BRepBuilderAPI_MakeEdge ^e2,
-			_BRepBuilderAPI_MakeEdge ^e3,
-			_BRepBuilderAPI_MakeEdge ^e4)
+		BRepLib_FindSurface()
 		{
-			m_Impl = new BRepBuilderAPI_MakeWire(*(e1->ObjRef()), *(e2->ObjRef()), *(e3->ObjRef()), *(e4->ObjRef()));
+			m_Impl = new ::BRepLib_FindSurface();
 		}
 
-		~_BRepBuilderAPI_MakeWire()
+		BRepLib_FindSurface(TopoDS_Shape^ s,
+			[OptionalAttribute] Nullable<Standard_Real> Tol,
+			[OptionalAttribute] Nullable<Standard_Boolean> OnlyPlane,
+			[OptionalAttribute] Nullable<Standard_Boolean> OnlyClosed)
+		{
+			if (!Tol.HasValue) Tol = -1;
+			if (!OnlyPlane.HasValue) OnlyPlane = false;
+			if (!OnlyClosed.HasValue) OnlyClosed = false;
+
+			m_Impl = new ::BRepLib_FindSurface();
+			*m_Impl = ::BRepLib_FindSurface(*s->ObjRef(), Tol.Value, OnlyPlane.Value, OnlyClosed.Value);
+		}
+
+		Geom_Surface^ Surface()
+		{
+			return gcnew Geom_Surface((::Geom_Surface *)m_Impl->Surface()->This());
+		}
+
+		~BRepLib_FindSurface()
 		{
 			delete m_Impl;
 		}
 
-		BRepBuilderAPI_MakeWire *ObjRef()
-		{
-			return m_Impl;
-		}
-
 	protected:
-		!_BRepBuilderAPI_MakeWire()
+		!BRepLib_FindSurface()
 		{
 			delete m_Impl;
 		}
 
 	private:
-		BRepBuilderAPI_MakeWire *m_Impl;
+		::BRepLib_FindSurface *m_Impl;
 
 	};
 

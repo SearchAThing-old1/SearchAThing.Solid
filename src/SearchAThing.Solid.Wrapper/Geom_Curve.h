@@ -38,44 +38,49 @@
 
 #pragma once
 
-#include <stdio.h>
+#include "Stdafx.h"
 
-#include <gp_Pnt.hxx>
+#include <Geom_Curve.hxx>
 
-#include <IGESControl_Controller.hxx>
-#include <IGESControl_Writer.hxx>
-#include <BRepBuilderAPI_MakeEdge.hxx>
-#include <BRepBuilderAPI_MakeWire.hxx>
-#include <BRepBuilderAPI_MakeFace.hxx>
-#include <TopoDS_Edge.hxx>
-#include <TopoDS_Wire.hxx>
-#include <TopoDS_Shape.hxx>
-#include <TopoDS_Face.hxx>
-
-using namespace System;
-
-#include "_gp_pnt.h"
-#include "_BRepBuilderAPI_MakeWire.h"
+#include "Standard_Transient.h"
 
 namespace SearchAThing::Solid::Wrapper {
 
-	public ref class _TopoDS_Shape
+	public ref class Geom_Curve
 	{
 
 	public:
-		_TopoDS_Shape()
+		Geom_Curve(::Geom_Curve *obj)
 		{
-			
-		}				
-
-		virtual const TopoDS_Shape *GetTopoDS_Shape()
-		{
-			return NULL;
+			m_Impl = obj;
 		}
 
-	protected:		
+		~Geom_Curve()
+		{
+			delete m_Impl;
+		}
 
-	private:		
+		double FirstParameter() { return m_Impl->FirstParameter(); }
+		double LastParameter() { return m_Impl->LastParameter(); }
+
+		::Geom_Curve *ObjRef()
+		{
+			return m_Impl;
+		}
+
+		Standard_Transient^ This()
+		{
+			return gcnew Standard_Transient(m_Impl->This());
+		}
+
+	protected:
+		!Geom_Curve()
+		{
+			delete m_Impl;
+		}
+
+	private:
+		::Geom_Curve *m_Impl;
 
 	};
 

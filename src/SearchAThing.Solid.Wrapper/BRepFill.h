@@ -38,55 +38,27 @@
 
 #pragma once
 
-#include <stdio.h>
-
-#include <gp_Pnt.hxx>
-
-#include <IGESControl_Controller.hxx>
-#include <IGESControl_Writer.hxx>
-#include <BRepBuilderAPI_MakeEdge.hxx>
-#include <BRepBuilderAPI_MakeWire.hxx>
-#include <BRepBuilderAPI_MakeFace.hxx>
-#include <TopoDS_Edge.hxx>
-#include <TopoDS_Wire.hxx>
-#include <TopoDS_Shape.hxx>
-#include <TopoDS_Face.hxx>
-
 using namespace System;
 
-#include "_gp_pnt.h"
-#include "_BRepBuilderAPI_MakeWire.h"
-#include "_TopoDS_Shape.h"
+#include <BRepFill.hxx>
+#include "TopoDS_Face.h"
+#include "TopoDS_Edge.h"
 
 namespace SearchAThing::Solid::Wrapper {
 
-	public ref class _BRepBuilderAPI_MakeFace : _TopoDS_Shape
+	public ref class BRepFill abstract sealed
 	{
 
 	public:
-		_BRepBuilderAPI_MakeFace(_BRepBuilderAPI_MakeWire ^wire)
-		{
-			m_Impl = new BRepBuilderAPI_MakeFace(*(wire->ObjRef()));
-		}
 
-		~_BRepBuilderAPI_MakeFace()
-		{
-			delete m_Impl;
-		}
+		static int field;
 
-		const TopoDS_Shape *GetTopoDS_Shape() override
+		static TopoDS_Face^ Face(TopoDS_Edge^ Edge1, TopoDS_Edge^ Edge2)
 		{
-			return &(m_Impl->Shape());
+			::TopoDS_Face *x = new ::TopoDS_Face();
+			*x = ::BRepFill::Face(*(Edge1->ObjRef()), *(Edge2->ObjRef()));
+			return gcnew TopoDS_Face(x);
 		}
-
-	protected:
-		!_BRepBuilderAPI_MakeFace()
-		{
-			delete m_Impl;
-		}
-
-	private:
-		BRepBuilderAPI_MakeFace *m_Impl;
 
 	};
 

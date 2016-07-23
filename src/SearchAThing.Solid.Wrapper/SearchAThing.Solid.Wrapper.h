@@ -10,7 +10,7 @@ using namespace System;
 using namespace System::Diagnostics;
 
 using namespace System;
-
+/*
 namespace SearchAThingSolidWrapper {
 
 	public ref class Class1
@@ -18,3 +18,4 @@ namespace SearchAThingSolidWrapper {
 		 
 	};
 }
+*/

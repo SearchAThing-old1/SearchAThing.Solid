@@ -38,6 +38,7 @@
 
 using SearchAThing.Solid.Wrapper;
 using System;
+using System.Text;
 
 namespace SearchAThing.Solid.Example01
 {
@@ -49,27 +50,60 @@ namespace SearchAThing.Solid.Example01
         {
             Console.WriteLine(Environment.CurrentDirectory);
 
-            _IGESControl_Controller.Init();
-            var writer = new _IGESControl_Writer("MM", 0);
+            IGESControl_Controller.Init();
+            var writer = new IGESControl_Writer("MM", 0);
 
-            var p1 = new _gp_Pnt(0, 0, 0);
-            var p2 = new _gp_Pnt(10, 0, 0);
-            var p3 = new _gp_Pnt(10, 10, 0);
-            var p4 = new _gp_Pnt(0, 10, 0);
+            TopoDS_Face face1;
+            {
+                var p1 = new gp_Pnt(-10, 0, 0);
+                var p2 = new gp_Pnt(20, 0, 0);
+                var p3 = new gp_Pnt(-10, 10, 0);
+                var p4 = new gp_Pnt(20, 10, 15);
 
-            var edge12 = new _BRepBuilderAPI_MakeEdge(p1, p2);
-            var edge23 = new _BRepBuilderAPI_MakeEdge(p2, p3);
-            var edge34 = new _BRepBuilderAPI_MakeEdge(p3, p4);
-            var edge41 = new _BRepBuilderAPI_MakeEdge(p4, p1);
+                var edge12 = new BRepBuilderAPI_MakeEdge(p1, p2);
+                var edge34 = new BRepBuilderAPI_MakeEdge(p3, p4);
 
-            var wire = new _BRepBuilderAPI_MakeWire(edge12, edge23, edge34, edge41);
+                face1 = BRepFill.Face(edge12.Edge(), edge34.Edge());
 
-            var face = new _BRepBuilderAPI_MakeFace(wire);
+                writer.AddShape(face1);
+            }
 
-            writer.AddShape(face);
+            TopoDS_Face face2;
+            {
+                var p1 = new gp_Pnt(7.5, -5, -5);
+                var p2 = new gp_Pnt(7.5, 15, -5);
+                var p3 = new gp_Pnt(7.5, -5, 15);
+                var p4 = new gp_Pnt(7.5, 15, 15);
+
+                var edge12 = new BRepBuilderAPI_MakeEdge(p1, p2);
+                var edge34 = new BRepBuilderAPI_MakeEdge(p3, p4);
+
+                face2 = BRepFill.Face(edge12.Edge(), edge34.Edge());
+
+                writer.AddShape(face2);
+            }
+
+            var s1 = new BRepLib_FindSurface(face1);
+            var s2 = new BRepLib_FindSurface(face2);
+
+            var a = new GeomAPI_IntSS(s1.Surface(), s2.Surface(), 1e-1);
+
+            var C = a.Line(1);
+
+            var edge = new BRepBuilderAPI_MakeEdge(C, C.FirstParameter(), C.LastParameter());
+
+            var v1 = edge.Vertex1();
+            var v2 = edge.Vertex2();
+
+            var i1 = BRep_Tool.Pnt(v1);
+            var i2 = BRep_Tool.Pnt(v2);
+            
+            Console.WriteLine($"Intersection line = {i1}-{i2}");
+
+            writer.AddGeom(C.This());
             writer.ComputeModel();
-
-            writer.Write(@"output.igs", 0);        
+            
+            writer.Write("MyFile.igs");                        
         }
 
     }

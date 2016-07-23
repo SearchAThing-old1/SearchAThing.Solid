@@ -38,51 +38,42 @@
 
 #pragma once
 
-#include <stdio.h>
-
 #include <gp_Pnt.hxx>
-
-#include <IGESControl_Controller.hxx>
-#include <IGESControl_Writer.hxx>
-#include <BRepBuilderAPI_MakeEdge.hxx>
-#include <BRepBuilderAPI_MakeWire.hxx>
-#include <BRepBuilderAPI_MakeFace.hxx>
-#include <TopoDS_Edge.hxx>
-#include <TopoDS_Wire.hxx>
 #include <TopoDS_Shape.hxx>
-#include <TopoDS_Face.hxx>
 
 using namespace System;
 
+#include "BRepBuilderAPI_Command.h"
+
 namespace SearchAThing::Solid::Wrapper {
 
-	public ref class _gp_Pnt
+	public ref class BRepBuilderAPI_MakeShape : BRepBuilderAPI_Command
 	{
 
 	public:
-		_gp_Pnt(const Standard_Real Xp, const Standard_Real Yp, const Standard_Real Zp)
+		BRepBuilderAPI_MakeShape(::TopoDS_Shape *shape) : BRepBuilderAPI_Command(NULL)
 		{
-			m_Impl = new gp_Pnt(Xp, Yp, Zp);
+			m_Impl = shape;
 		}
 
-		~_gp_Pnt()
+		~BRepBuilderAPI_MakeShape()
 		{
 			delete m_Impl;
 		}
 
-		gp_Pnt *ObjRef()
+		::TopoDS_Shape *ObjRef()
 		{
 			return m_Impl;
 		}
-		
+
 	protected:
-		!_gp_Pnt()
+		!BRepBuilderAPI_MakeShape()
 		{
 			delete m_Impl;
 		}
 
 	private:
-		gp_Pnt *m_Impl;
+		::TopoDS_Shape *m_Impl;
 
 	};
 
