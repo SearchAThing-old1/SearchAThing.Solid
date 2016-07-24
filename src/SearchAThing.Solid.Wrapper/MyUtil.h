@@ -52,23 +52,18 @@ namespace SearchAThing::Solid::Wrapper
 	class MyUtil
 	{
 
-	public:			
+	public:
 		template<typename T1, typename T2>
 		static void ReleaseInstance(T1^ obj, interior_ptr<T2 *> _ptr)
-		{			
+		{
 			pin_ptr<T2 *> pp = _ptr;
 
 			T2 **ptr = pp;
 
-			auto ilck = Interlocked::Exchange((IntPtr)(void *)(*ptr), (IntPtr)0);
-			if (ilck != IntPtr::Zero)
+			if (*ptr)
 			{
-				if (*ptr)
-				{					
-					delete *ptr;
-					*ptr = 0;
-					System::GC::SuppressFinalize(obj);
-				}
+				delete *ptr;
+				*ptr = 0;
 			}
 		}
 
