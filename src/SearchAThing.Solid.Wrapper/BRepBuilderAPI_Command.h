@@ -1,3 +1,4 @@
+#pragma region SearchAThing.Solid, Copyright(C) 2016 Lorenzo Delana, License under MIT
 /*
 * Thirdy Part Components
 * ======================
@@ -35,10 +36,13 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 * DEALINGS IN THE SOFTWARE.
 */
+#pragma endregion
 
 #pragma once
 
 #include <BRepBuilderAPI_Command.hxx>
+
+#include "MyUtil.h"
 
 using namespace System;
 
@@ -54,8 +58,8 @@ namespace SearchAThing::Solid::Wrapper {
 		}
 
 		~BRepBuilderAPI_Command()
-		{
-			delete m_Impl;
+		{					
+			MyUtil::ReleaseInstance(this, &m_Impl);
 		}
 
 		::BRepBuilderAPI_Command *ObjRef()
@@ -66,10 +70,11 @@ namespace SearchAThing::Solid::Wrapper {
 	protected:
 		!BRepBuilderAPI_Command()
 		{
-			delete m_Impl;
+			MyUtil::ReleaseInstance(this, &m_Impl);
 		}
 
 	private:
+		 
 		::BRepBuilderAPI_Command *m_Impl;
 
 	};

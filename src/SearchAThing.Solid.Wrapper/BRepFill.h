@@ -1,3 +1,4 @@
+#pragma region SearchAThing.Solid, Copyright(C) 2016 Lorenzo Delana, License under MIT
 /*
 * Thirdy Part Components
 * ======================
@@ -35,8 +36,11 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 * DEALINGS IN THE SOFTWARE.
 */
+#pragma endregion
 
 #pragma once
+
+#include "Stdafx.h"
 
 using namespace System;
 
@@ -55,9 +59,9 @@ namespace SearchAThing::Solid::Wrapper {
 
 		static TopoDS_Face^ Face(TopoDS_Edge^ Edge1, TopoDS_Edge^ Edge2)
 		{
-			::TopoDS_Face *x = new ::TopoDS_Face();
-			*x = ::BRepFill::Face(*(Edge1->ObjRef()), *(Edge2->ObjRef()));
-			return gcnew TopoDS_Face(x);
+			auto tmp = new ::TopoDS_Face();
+			*tmp = ::BRepFill::Face(*Edge1->ObjRef(), *Edge2->ObjRef());
+			return gcnew TopoDS_Face(tmp);
 		}
 
 	};

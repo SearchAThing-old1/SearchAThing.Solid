@@ -1,3 +1,4 @@
+#pragma region SearchAThing.Solid, Copyright(C) 2016 Lorenzo Delana, License under MIT
 /*
 * Thirdy Part Components
 * ======================
@@ -35,8 +36,11 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 * DEALINGS IN THE SOFTWARE.
 */
+#pragma endregion
 
 #pragma once
+
+#include "Stdafx.h"
 
 using namespace System;
 
@@ -50,28 +54,25 @@ namespace SearchAThing::Solid::Wrapper {
 
 	public:		
 		TopoDS_Edge(::TopoDS_Edge *_m_Impl) : TopoDS_Shape(_m_Impl)
-		{
-			m_Impl = _m_Impl;
+		{			
 		}
 
 		~TopoDS_Edge()
-		{
-			delete m_Impl;
-		}
+		{			
+		}		
 
 		::TopoDS_Edge *ObjRef()
 		{
-			return m_Impl;
+			return (::TopoDS_Edge *)TopoDS_Shape::ObjRef();
 		}
 
 	protected:
 		!TopoDS_Edge()
-		{
-			delete m_Impl;
+		{			
 		}
 
-	private:
-		::TopoDS_Edge *m_Impl;
+	private:	
+		
 
 	};
 

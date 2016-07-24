@@ -1,3 +1,4 @@
+#pragma region SearchAThing.Solid, Copyright(C) 2016 Lorenzo Delana, License under MIT
 /*
 * Thirdy Part Components
 * ======================
@@ -35,6 +36,7 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 * DEALINGS IN THE SOFTWARE.
 */
+#pragma endregion
 
 #pragma once
 
@@ -55,7 +57,7 @@ namespace SearchAThing::Solid::Wrapper {
 
 		~Geom_Surface()
 		{
-			delete m_Impl;
+			MyUtil::ReleaseInstance(this, &m_Impl);
 		}
 
 		::Geom_Surface *ObjRef()
@@ -66,10 +68,10 @@ namespace SearchAThing::Solid::Wrapper {
 	protected:
 		!Geom_Surface()
 		{
-			delete m_Impl;
+			MyUtil::ReleaseInstance(this, &m_Impl);
 		}
 
-	private:
+	private:		
 		::Geom_Surface *m_Impl;
 
 	};

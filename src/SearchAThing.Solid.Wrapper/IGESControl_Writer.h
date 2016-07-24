@@ -1,3 +1,4 @@
+#pragma region SearchAThing.Solid, Copyright(C) 2016 Lorenzo Delana, License under MIT
 /*
 * Thirdy Part Components
 * ======================
@@ -35,11 +36,11 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 * DEALINGS IN THE SOFTWARE.
 */
+#pragma endregion
 
 #pragma once
 
 #include "Stdafx.h"
-#include "SearchAThing.Solid.Wrapper.h"
 
 using namespace msclr::interop;
 using namespace System;
@@ -67,7 +68,7 @@ namespace SearchAThing::Solid::Wrapper {
 
 		~IGESControl_Writer()
 		{
-			delete m_Impl;
+			MyUtil::ReleaseInstance(this, &m_Impl);
 		}
 
 		Standard_Boolean AddShape(TopoDS_Shape ^sh)
@@ -92,7 +93,7 @@ namespace SearchAThing::Solid::Wrapper {
 			return m_Impl->Write(S, fnes.Value);
 		}
 
-		Standard_Boolean Write(String ^ _file, [OptionalAttribute] Nullable<bool> fnes)
+		Standard_Boolean Write(String^ _file, [OptionalAttribute] Nullable<bool> fnes)
 		{
 			if (!fnes.HasValue) fnes = false;
 
@@ -105,7 +106,7 @@ namespace SearchAThing::Solid::Wrapper {
 	protected:
 		!IGESControl_Writer()
 		{
-			delete m_Impl;
+			MyUtil::ReleaseInstance(this, &m_Impl);
 		}
 
 	private:

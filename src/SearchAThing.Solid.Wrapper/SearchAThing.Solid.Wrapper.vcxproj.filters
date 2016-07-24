@@ -75,6 +75,9 @@
     <ClInclude Include="Standard_Transient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MyUtil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SearchAThing.Solid.Wrapper.cpp">
@@ -86,9 +89,6 @@
     <ClCompile Include="Stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc">

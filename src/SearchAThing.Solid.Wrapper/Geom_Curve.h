@@ -1,3 +1,4 @@
+#pragma region SearchAThing.Solid, Copyright(C) 2016 Lorenzo Delana, License under MIT
 /*
 * Thirdy Part Components
 * ======================
@@ -35,6 +36,7 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 * DEALINGS IN THE SOFTWARE.
 */
+#pragma endregion
 
 #pragma once
 
@@ -50,37 +52,35 @@ namespace SearchAThing::Solid::Wrapper {
 	{
 
 	public:
-		Geom_Curve(::Geom_Curve *obj)
+		Geom_Curve(::Standard_Transient *obj)
 		{
-			m_Impl = obj;
+			handle = obj;
 		}
-
+		
 		~Geom_Curve()
 		{
-			delete m_Impl;
 		}
 
-		double FirstParameter() { return m_Impl->FirstParameter(); }
-		double LastParameter() { return m_Impl->LastParameter(); }
+		double FirstParameter() { return ((::Geom_Curve *)handle)->FirstParameter(); }
+		double LastParameter() { return ((::Geom_Curve *)handle)->LastParameter(); }
 
 		::Geom_Curve *ObjRef()
 		{
-			return m_Impl;
+			return (::Geom_Curve *)handle;
 		}
 
 		Standard_Transient^ This()
 		{
-			return gcnew Standard_Transient(m_Impl->This());
+			return gcnew Standard_Transient(handle);
 		}
 
 	protected:
 		!Geom_Curve()
 		{
-			delete m_Impl;
 		}
 
 	private:
-		::Geom_Curve *m_Impl;
+		::Standard_Transient *handle;
 
 	};
 

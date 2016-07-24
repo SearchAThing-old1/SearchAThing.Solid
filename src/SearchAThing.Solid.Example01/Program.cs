@@ -1,4 +1,5 @@
-﻿/*
+﻿#region SearchAThing.Solid, Copyright(C) 2016 Lorenzo Delana, License under MIT
+/*
 * Thirdy Part Components
 * ======================
 * SearchAThing.Solid project uses libraries from the following projects:
@@ -35,6 +36,7 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 * DEALINGS IN THE SOFTWARE.
 */
+#endregion
 
 using SearchAThing.Solid.Wrapper;
 using System;

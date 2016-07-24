@@ -42,57 +42,35 @@
 
 #include "Stdafx.h"
 
-#include <gp_Pnt.hxx>
-
 using namespace System;
 using namespace System::Globalization;
+using namespace System::Threading;
 
-namespace SearchAThing::Solid::Wrapper {
+namespace SearchAThing::Solid::Wrapper
+{
 
-	public ref class gp_Pnt
+	class MyUtil
 	{
 
-	public:
-		gp_Pnt()
-		{
-			m_Impl = new ::gp_Pnt();
-		}
+	public:			
+		template<typename T1, typename T2>
+		static void ReleaseInstance(T1^ obj, interior_ptr<T2 *> _ptr)
+		{			
+			pin_ptr<T2 *> pp = _ptr;
 
-		gp_Pnt(::gp_Pnt *obj)
-		{
-			m_Impl = obj;
-		}
+			T2 **ptr = pp;
 
-		gp_Pnt(const Standard_Real Xp, const Standard_Real Yp, const Standard_Real Zp)
-		{
-			m_Impl = new ::gp_Pnt(Xp, Yp, Zp);
+			auto ilck = Interlocked::Exchange((IntPtr)(void *)(*ptr), (IntPtr)0);
+			if (ilck != IntPtr::Zero)
+			{
+				if (*ptr)
+				{					
+					delete *ptr;
+					*ptr = 0;
+					System::GC::SuppressFinalize(obj);
+				}
+			}
 		}
-
-		~gp_Pnt()
-		{						
-			MyUtil::ReleaseInstance(this, &m_Impl);
-		}
-
-		::gp_Pnt *ObjRef()
-		{
-			return m_Impl;
-		}
-
-		virtual String^ ToString() override
-		{
-			auto sb = gcnew System::Text::StringBuilder();
-			sb->AppendFormat(CultureInfo::InvariantCulture, "({0:0.####},{1:0.####},{2:0.####})", m_Impl->X(), m_Impl->Y(), m_Impl->Z());
-			return sb->ToString();
-		}
-
-	protected:
-		!gp_Pnt()
-		{	
-			MyUtil::ReleaseInstance(this, &m_Impl);
-		}
-
-	private:		
-		::gp_Pnt *m_Impl;
 
 	};
 

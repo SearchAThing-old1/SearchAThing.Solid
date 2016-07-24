@@ -1,3 +1,4 @@
+#pragma region SearchAThing.Solid, Copyright(C) 2016 Lorenzo Delana, License under MIT
 /*
 * Thirdy Part Components
 * ======================
@@ -35,8 +36,11 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 * DEALINGS IN THE SOFTWARE.
 */
+#pragma endregion
 
 #pragma once
+
+#include "Stdafx.h"
 
 #include <gp_Pnt.hxx>
 #include <TopoDS_Shape.hxx>
@@ -58,7 +62,7 @@ namespace SearchAThing::Solid::Wrapper {
 
 		~BRepBuilderAPI_MakeShape()
 		{
-			delete m_Impl;
+			MyUtil::ReleaseInstance(this, &m_Impl);
 		}
 
 		::TopoDS_Shape *ObjRef()
@@ -69,7 +73,7 @@ namespace SearchAThing::Solid::Wrapper {
 	protected:
 		!BRepBuilderAPI_MakeShape()
 		{
-			delete m_Impl;
+			MyUtil::ReleaseInstance(this, &m_Impl);
 		}
 
 	private:

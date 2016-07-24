@@ -1,3 +1,4 @@
+#pragma region SearchAThing.Solid, Copyright(C) 2016 Lorenzo Delana, License under MIT
 /*
 * Thirdy Part Components
 * ======================
@@ -35,6 +36,7 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 * DEALINGS IN THE SOFTWARE.
 */
+#pragma endregion
 
 #pragma once
 
@@ -59,24 +61,26 @@ namespace SearchAThing::Solid::Wrapper {
 
 		~GeomAPI_IntSS()
 		{
-			delete m_Impl;
+			MyUtil::ReleaseInstance(this, &m_Impl);
 		}
 
 		property bool IsDone { bool get() { return m_Impl->IsDone(); } }
 		property int NbLines { int get() { return m_Impl->NbLines(); } }
 
 		Geom_Curve^ Line(int i)
-		{
-			return gcnew Geom_Curve((::Geom_Curve *)m_Impl->Line(i)->This());
+		{			
+			auto line = m_Impl->Line(i);
+
+			return gcnew Geom_Curve(line->This());
 		}
 
 	protected:
 		!GeomAPI_IntSS()
-		{
-			delete m_Impl;
+		{			
+			MyUtil::ReleaseInstance(this, &m_Impl);
 		}
 
-	private:
+	private:		 
 		::GeomAPI_IntSS *m_Impl;
 
 	};

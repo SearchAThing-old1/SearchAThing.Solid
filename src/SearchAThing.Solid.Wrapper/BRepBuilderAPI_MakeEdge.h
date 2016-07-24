@@ -1,3 +1,4 @@
+#pragma region SearchAThing.Solid, Copyright(C) 2016 Lorenzo Delana, License under MIT
 /*
 * Thirdy Part Components
 * ======================
@@ -35,8 +36,11 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 * DEALINGS IN THE SOFTWARE.
 */
+#pragma endregion
 
 #pragma once
+
+#include "Stdafx.h"
 
 #include <BRepBuilderAPI_MakeEdge.hxx>
 #include <TopoDS_Edge.hxx>
@@ -67,8 +71,8 @@ namespace SearchAThing::Solid::Wrapper {
 		}
 
 		~BRepBuilderAPI_MakeEdge()
-		{
-			delete m_Impl;
+		{						
+			MyUtil::ReleaseInstance(this, &m_Impl);
 		}
 
 		TopoDS_Edge^ Edge()
@@ -95,10 +99,10 @@ namespace SearchAThing::Solid::Wrapper {
 	protected:
 		!BRepBuilderAPI_MakeEdge()
 		{
-			delete m_Impl;
+			MyUtil::ReleaseInstance(this, &m_Impl);
 		}
 
-	private:
+	private:		
 		::BRepBuilderAPI_MakeEdge *m_Impl;
 
 	};

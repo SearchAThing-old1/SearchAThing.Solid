@@ -164,6 +164,7 @@
     <ClInclude Include="Geom_Surface.h" />
     <ClInclude Include="IGESControl_Controller.h" />
     <ClInclude Include="IGESControl_Writer.h" />
+    <ClInclude Include="MyUtil.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SearchAThing.Solid.Wrapper.h" />
     <ClInclude Include="Standard_Transient.h" />
@@ -185,9 +186,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc" />
