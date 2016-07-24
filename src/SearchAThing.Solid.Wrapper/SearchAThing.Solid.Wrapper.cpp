@@ -3,6 +3,7 @@
 #include "SearchAThing.Solid.Wrapper.h"
 
 #include "gp_pnt.h"
+#include "gp_Dir.h"
 #include "BRepBuilderAPI_MakeEdge.h"
 #include "BRepBuilderAPI_MakeShape.h"
 #include "BRepBuilderAPI_Command.h"
@@ -18,3 +19,6 @@
 #include "Geom_Curve.h"
 #include "BRep_Tool.h"
 #include "Standard_Transient.h"
+#include "GeomLProp_SLProps.h"
+#include "BRepTools.h"
+#include "BRepOffset_Offset.h"

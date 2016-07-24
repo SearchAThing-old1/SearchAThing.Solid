@@ -33,40 +33,22 @@ This project is a working in progress and only some entities from the OpenCascad
 IGESControl_Controller.Init();
 var writer = new IGESControl_Writer("MM", 0);
 
-TopoDS_Face face1;
-{
-    var p1 = new gp_Pnt(-10, 0, 0);
-    var p2 = new gp_Pnt(20, 0, 0);
-    var p3 = new gp_Pnt(-10, 10, 0);
-    var p4 = new gp_Pnt(20, 10, 15);
+var face1 = Toolkit.FromEdges(
+    new Line3D(new Vector3D(-10, 0, 0), new Vector3D(20, 0, 0)),
+    new Line3D(new Vector3D(-10, 10, 0), new Vector3D(20, 10, 15)));
 
-    var edge12 = new BRepBuilderAPI_MakeEdge(p1, p2);
-    var edge34 = new BRepBuilderAPI_MakeEdge(p3, p4);
+writer.AddShape(face1);
 
-    face1 = BRepFill.Face(edge12.Edge(), edge34.Edge());
+var face2 = Toolkit.FromEdges(
+    new Line3D(new Vector3D(7.5, -5, -5), new Vector3D(7.5, 15, -5)),
+    new Line3D(new Vector3D(7.5, -5, 15), new Vector3D(7.5, 15, 15)));
 
-    writer.AddShape(face1);
-}
+writer.AddShape(face2);
 
-TopoDS_Face face2;
-{
-    var p1 = new gp_Pnt(7.5, -5, -5);
-    var p2 = new gp_Pnt(7.5, 15, -5);
-    var p3 = new gp_Pnt(7.5, -5, 15);
-    var p4 = new gp_Pnt(7.5, 15, 15);
+var s1 = face1.Surface();
+var s2 = face2.Surface();
 
-    var edge12 = new BRepBuilderAPI_MakeEdge(p1, p2);
-    var edge34 = new BRepBuilderAPI_MakeEdge(p3, p4);
-
-    face2 = BRepFill.Face(edge12.Edge(), edge34.Edge());
-
-    writer.AddShape(face2);
-}
-
-var s1 = new BRepLib_FindSurface(face1);
-var s2 = new BRepLib_FindSurface(face2);
-
-var a = new GeomAPI_IntSS(s1.Surface(), s2.Surface(), 1e-1);
+var a = new GeomAPI_IntSS(s1, s2, 1e-1);
 
 var C = a.Line(1);
 
@@ -84,6 +66,38 @@ writer.AddGeom(C.This());
 writer.ComputeModel();
 
 writer.Write("MyFile.igs");
+
+Process.Start(AppDomain.CurrentDomain.BaseDirectory);
+```
+
+### Example02
+
+This example shows how to offset a `Face` using the `Offset` extension method specifying an offset reference point. In the example:
+- magenta face has a `sideRefPt` of (0,0,1)
+- cyan face has a `sideRefPt` of (0,0,-1)
+
+![img](doc/images/Example02-offset.PNG)
+
+[source code](src/SearchAThing.Solid.Example02/Program.cs)
+
+```csharp
+Console.WriteLine(Environment.CurrentDirectory);
+
+IGESControl_Controller.Init();
+var writer = new IGESControl_Writer("MM", 0);
+
+var face = Toolkit.FromEdges(
+new Line3D(new Vector3D(0, 0, 0), new Vector3D(10, 0, 0)),
+new Line3D(new Vector3D(0, 10, 0), new Vector3D(30, 10, 0)));
+
+writer.AddShape(face);
+writer.AddShape(face.Offset(5, new Vector3D(0, 0, 1)));
+writer.AddShape(face.Offset(15, new Vector3D(0, 0, -1)));
+
+writer.ComputeModel();
+writer.Write("MyFile.igs");
+
+Process.Start(AppDomain.CurrentDomain.BaseDirectory);
 ```
 
 ## Build

@@ -42,38 +42,33 @@
 
 #include "Stdafx.h"
 
-#include <gp_Pnt.hxx>
+#include <gp_Dir.hxx>
 
 using namespace System;
 using namespace System::Globalization;
 
 namespace SearchAThing::Solid::Wrapper {
 
-	public ref class gp_Pnt
+	public ref class gp_Dir
 	{
 
 	public:
-		gp_Pnt()
+		gp_Dir()
 		{
-			impl = new ::gp_Pnt();
+			impl = new ::gp_Dir();
 		}
 
-		gp_Pnt(::gp_Pnt *obj)
+		gp_Dir(::gp_Dir *obj)
 		{
 			impl = obj;
 		}
-
-		gp_Pnt(const Standard_Real Xp, const Standard_Real Yp, const Standard_Real Zp)
-		{
-			impl = new ::gp_Pnt(Xp, Yp, Zp);
-		}
-
-		~gp_Pnt()
+		
+		~gp_Dir()
 		{						
 			MyUtil::ReleaseInstance(this, &impl);
 		}
 
-		::gp_Pnt *ObjRef()
+		::gp_Dir *ObjRef()
 		{
 			return impl;
 		}
@@ -90,13 +85,13 @@ namespace SearchAThing::Solid::Wrapper {
 		}
 
 	protected:
-		!gp_Pnt()
+		!gp_Dir()
 		{	
 			MyUtil::ReleaseInstance(this, &impl);
 		}
 
 	private:		
-		::gp_Pnt *impl;
+		::gp_Dir *impl;
 
 	};
 

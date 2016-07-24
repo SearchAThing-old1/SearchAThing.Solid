@@ -40,56 +40,66 @@
 
 using SearchAThing.Sci;
 using SearchAThing.Solid.Wrapper;
-using System;
-using System.Diagnostics;
-using System.Text;
 
-namespace SearchAThing.Solid.Example01
+namespace SearchAThing.Solid
 {
 
-    class Program
+    public static partial class Toolkit
     {
 
-        static void Main(string[] args)
-        {            
-            IGESControl_Controller.Init();
-            var writer = new IGESControl_Writer("MM", 0);
+        public static TopoDS_Face FromEdges(Line3D line1, Line3D line2)
+        {
+            return BRepFill.Face(
+                new BRepBuilderAPI_MakeEdge(line1.From.gp_Pnt(), line1.To.gp_Pnt()).Edge(),
+                new BRepBuilderAPI_MakeEdge(line2.From.gp_Pnt(), line2.To.gp_Pnt()).Edge());
+        }
 
-            var face1 = Toolkit.FromEdges(
-                new Line3D(new Vector3D(-10, 0, 0), new Vector3D(20, 0, 0)),
-                new Line3D(new Vector3D(-10, 10, 0), new Vector3D(20, 10, 15)));
+    }
 
-            writer.AddShape(face1);
+    public static partial class Extensions
+    {
 
-            var face2 = Toolkit.FromEdges(
-                new Line3D(new Vector3D(7.5, -5, -5), new Vector3D(7.5, 15, -5)),
-                new Line3D(new Vector3D(7.5, -5, 15), new Vector3D(7.5, 15, 15)));
+        public static UVBounds UVBounds(this TopoDS_Face face)
+        {
+            var umin = 0.0;
+            var umax = 0.0;
+            var vmin = 0.0;
+            var vmax = 0.0;
 
-            writer.AddShape(face2);
+            BRepTools.UVBounds(face, ref umin, ref umax, ref vmin, ref vmax);
 
-            var s1 = face1.Surface();
-            var s2 = face2.Surface();
+            return new UVBounds(umin, umax, vmin, vmax);
+        }
 
-            var a = new GeomAPI_IntSS(s1, s2, 1e-1);
+        public static TopoDS_Face Offset(this TopoDS_Face face, double off, Vector3D sideRefPt = null)
+        {
+            var surface = face.Surface();
+            var props = surface.LProp_SLProps(face.UVBounds());
+            var normal = props.Normal();
 
-            var C = a.Line(1);
+            var offFact = 1.0;
 
-            var edge = new BRepBuilderAPI_MakeEdge(C, C.FirstParameter(), C.LastParameter());
+            if (sideRefPt != null)
+            {
+                if (!sideRefPt.Normalized().Concordant(Constants.NormalizedLengthTolerance, normal.ToVector3D()))
+                    offFact *= -1;
+            }
 
-            var v1 = edge.Vertex1();
-            var v2 = edge.Vertex2();
+            return new BRepOffset_Offset(face, off * offFact).Face();
+        }
 
-            var i1 = BRep_Tool.Pnt(v1);
-            var i2 = BRep_Tool.Pnt(v2);
+        public static gp_Dir ComputeNormal(this TopoDS_Face face)
+        {
+            double umin = 0, umax = 0, vmin = 0, vmax = 0;
+            BRepTools.UVBounds(face, ref umin, ref umax, ref vmin, ref vmax);
+            var surface = BRep_Tool.Surface(face);
+            var props = new GeomLProp_SLProps(surface, umin, vmin, 1.0, 1e-1);
+            return props.Normal();
+        }
 
-            Console.WriteLine($"Intersection line = {i1}-{i2}");
-
-            writer.AddGeom(C.This());
-            writer.ComputeModel();
-
-            writer.Write("MyFile.igs");
-
-            Process.Start(AppDomain.CurrentDomain.BaseDirectory);
+        public static Geom_Surface Surface(this TopoDS_Face face)
+        {
+            return new BRepLib_FindSurface(face).Surface();
         }
 
     }

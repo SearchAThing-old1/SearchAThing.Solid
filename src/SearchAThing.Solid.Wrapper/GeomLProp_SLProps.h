@@ -42,61 +42,43 @@
 
 #include "Stdafx.h"
 
-#include <gp_Pnt.hxx>
+#include <GeomLProp_SLProps.hxx>
+#include <gp_Dir.hxx>
 
-using namespace System;
-using namespace System::Globalization;
+#include "Geom_Surface.h"
+#include "gp_Dir.h"
 
 namespace SearchAThing::Solid::Wrapper {
 
-	public ref class gp_Pnt
+	public ref class GeomLProp_SLProps
 	{
 
 	public:
-		gp_Pnt()
+		GeomLProp_SLProps(Geom_Surface^ surface, double U, double V, double N, double resolution)
 		{
-			impl = new ::gp_Pnt();
+			m_Impl = new ::GeomLProp_SLProps(surface->ObjRef(), U, V, N, resolution);
 		}
 
-		gp_Pnt(::gp_Pnt *obj)
+		~GeomLProp_SLProps()
 		{
-			impl = obj;
+			MyUtil::ReleaseInstance(this, &m_Impl);
 		}
 
-		gp_Pnt(const Standard_Real Xp, const Standard_Real Yp, const Standard_Real Zp)
+		gp_Dir^ Normal()
 		{
-			impl = new ::gp_Pnt(Xp, Yp, Zp);
-		}
-
-		~gp_Pnt()
-		{						
-			MyUtil::ReleaseInstance(this, &impl);
-		}
-
-		::gp_Pnt *ObjRef()
-		{
-			return impl;
-		}
-
-		double X() { return impl->X(); }
-		double Y() { return impl->Y(); }
-		double Z() { return impl->Z(); }
-
-		virtual String^ ToString() override
-		{
-			auto sb = gcnew System::Text::StringBuilder();
-			sb->AppendFormat(CultureInfo::InvariantCulture, "({0:0.####},{1:0.####},{2:0.####})", impl->X(), impl->Y(), impl->Z());
-			return sb->ToString();
+			auto tmp = new ::gp_Dir();
+			*tmp = m_Impl->Normal();
+			return gcnew gp_Dir(tmp);
 		}
 
 	protected:
-		!gp_Pnt()
-		{	
-			MyUtil::ReleaseInstance(this, &impl);
+		!GeomLProp_SLProps()
+		{
+			MyUtil::ReleaseInstance(this, &m_Impl);
 		}
 
-	private:		
-		::gp_Pnt *impl;
+	private:
+		::GeomLProp_SLProps *m_Impl;
 
 	};
 

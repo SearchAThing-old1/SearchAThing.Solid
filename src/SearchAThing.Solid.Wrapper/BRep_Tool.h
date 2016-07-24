@@ -45,7 +45,9 @@
 using namespace System;
 
 #include <BRep_Tool.hxx>
+#include <Geom_Surface.hxx>
 
+#include "Geom_Surface.h"
 #include "TopoDS_Vertex.h"
 #include "gp_pnt.h"
 
@@ -55,6 +57,11 @@ namespace SearchAThing::Solid::Wrapper {
 	{
 
 	public:
+
+		static Geom_Surface^ Surface(TopoDS_Face^ face)
+		{
+			return gcnew Geom_Surface((::Geom_Surface *)::BRep_Tool::Surface(*face->ObjRef())->This());
+		}
 
 		static gp_Pnt^ Pnt(TopoDS_Vertex^ v)
 		{

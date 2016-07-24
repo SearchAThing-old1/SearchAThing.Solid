@@ -58,7 +58,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Surface.cs" />
+    <Compile Include="UVBounds.cs" />
+    <Compile Include="gp_Dir.cs" />
+    <Compile Include="gp_Pnt.cs" />
+    <Compile Include="Face.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\SearchAThing.Core\src\SearchAThing.Core.csproj">
+      <Project>{8162a30e-a46d-4a78-ba12-1f376ac6f1b4}</Project>
+      <Name>SearchAThing.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\SearchAThing.Sci\src\SearchAThing.Sci.csproj">
+      <Project>{f9d7f0ee-d4ff-4455-87be-08539d2d1982}</Project>
+      <Name>SearchAThing.Sci</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SearchAThing.Solid.Wrapper\SearchAThing.Solid.Wrapper.vcxproj">
+      <Project>{d9e9e1aa-a062-4605-b365-f2cb7c424766}</Project>
+      <Name>SearchAThing.Solid.Wrapper</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

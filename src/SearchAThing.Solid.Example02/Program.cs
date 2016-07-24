@@ -1,4 +1,4 @@
-#pragma region SearchAThing.Solid, Copyright(C) 2016 Lorenzo Delana, License under MIT
+﻿#region SearchAThing.Solid, Copyright(C) 2016 Lorenzo Delana, License under MIT
 /*
 * Thirdy Part Components
 * ======================
@@ -36,68 +36,41 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 * DEALINGS IN THE SOFTWARE.
 */
-#pragma endregion
+#endregion
 
-#pragma once
+using SearchAThing.Sci;
+using SearchAThing.Solid.Wrapper;
+using System;
+using System.Diagnostics;
+using System.Text;
 
-#include "Stdafx.h"
+namespace SearchAThing.Solid.Example02
+{
 
-#include <gp_Pnt.hxx>
+    class Program
+    {
 
-using namespace System;
-using namespace System::Globalization;
+        static void Main(string[] args)
+        {
+            Console.WriteLine(Environment.CurrentDirectory);
 
-namespace SearchAThing::Solid::Wrapper {
+            IGESControl_Controller.Init();
+            var writer = new IGESControl_Writer("MM", 0);
 
-	public ref class gp_Pnt
-	{
+            var face = Toolkit.FromEdges(
+            new Line3D(new Vector3D(0, 0, 0), new Vector3D(10, 0, 0)),
+            new Line3D(new Vector3D(0, 10, 0), new Vector3D(30, 10, 0)));
 
-	public:
-		gp_Pnt()
-		{
-			impl = new ::gp_Pnt();
-		}
+            writer.AddShape(face);
+            writer.AddShape(face.Offset(5, new Vector3D(0, 0, 1)));
+            writer.AddShape(face.Offset(15, new Vector3D(0, 0, -1)));
 
-		gp_Pnt(::gp_Pnt *obj)
-		{
-			impl = obj;
-		}
+            writer.ComputeModel();
+            writer.Write("MyFile.igs");
 
-		gp_Pnt(const Standard_Real Xp, const Standard_Real Yp, const Standard_Real Zp)
-		{
-			impl = new ::gp_Pnt(Xp, Yp, Zp);
-		}
+            Process.Start(AppDomain.CurrentDomain.BaseDirectory);
+        }
 
-		~gp_Pnt()
-		{						
-			MyUtil::ReleaseInstance(this, &impl);
-		}
-
-		::gp_Pnt *ObjRef()
-		{
-			return impl;
-		}
-
-		double X() { return impl->X(); }
-		double Y() { return impl->Y(); }
-		double Z() { return impl->Z(); }
-
-		virtual String^ ToString() override
-		{
-			auto sb = gcnew System::Text::StringBuilder();
-			sb->AppendFormat(CultureInfo::InvariantCulture, "({0:0.####},{1:0.####},{2:0.####})", impl->X(), impl->Y(), impl->Z());
-			return sb->ToString();
-		}
-
-	protected:
-		!gp_Pnt()
-		{	
-			MyUtil::ReleaseInstance(this, &impl);
-		}
-
-	private:		
-		::gp_Pnt *impl;
-
-	};
+    }
 
 }

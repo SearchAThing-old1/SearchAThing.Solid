@@ -23,6 +23,7 @@
 #include <BRepTools.hxx>
 #include <BRepTools_Modifier.hxx>
 #include <BRepBuilderAPI_NurbsConvert.hxx>
+#include <BRepOffset_Offset.hxx>
 #include <BRepLib_FindSurface.hxx>
 #include <BRepFill.hxx>
 #include <BRep_TVertex.hxx>
@@ -30,6 +31,7 @@
 #include <TopoDS.hxx>
 #include <TopExp.hxx>
 #include <BRep_Tool.hxx>
+#include <GeomLProp_SLProps.hxx>
 
 int main()
 {
@@ -64,14 +66,46 @@ int main()
 		gp_Pnt p3(7.5, -5, 15);
 		gp_Pnt p4(7.5, 15, 15);
 
-		auto edge12 = BRepBuilderAPI_MakeEdge(p1, p2);
-		auto edge23 = BRepBuilderAPI_MakeEdge(p2, p3);
-		auto edge34 = BRepBuilderAPI_MakeEdge(p3, p4);
-		auto edge41 = BRepBuilderAPI_MakeEdge(p4, p1);
+		auto edge12 = BRepBuilderAPI_MakeEdge(p1, p2); auto edge21 = BRepBuilderAPI_MakeEdge(p2, p1);		
+		auto edge34 = BRepBuilderAPI_MakeEdge(p3, p4); auto edge43 = BRepBuilderAPI_MakeEdge(p4, p3);
 
 		face2 = BRepFill::Face(edge12, edge34);
+		auto face2b = BRepFill::Face(edge21, edge43);
 
 		ICW.AddShape(face2);
+		ICW.AddShape(face2b);
+
+		{
+			auto umin = 0.0;
+			auto umax = 0.0;
+			auto vmin = 0.0;
+			auto vmax = 0.0;
+			BRepTools::UVBounds(face2, umin, umax, vmin, vmax);			
+
+			auto surf = BRep_Tool::Surface(face2);
+
+			GeomLProp_SLProps props(surf, umin, vmin, 1, .01);
+
+			gp_Dir normal = props.Normal();
+		}
+
+		{
+			auto umin = 0.0;
+			auto umax = 0.0;
+			auto vmin = 0.0;
+			auto vmax = 0.0;
+			BRepTools::UVBounds(face2b, umin, umax, vmin, vmax);
+
+			auto surf = BRep_Tool::Surface(face2b);
+
+			GeomLProp_SLProps props(surf, umin, vmin, 1, .01);
+
+			gp_Dir normal = props.Normal();
+		}
+
+		auto off = BRepOffset_Offset(face2, 2);
+
+		ICW.AddShape(off.Face());
 	}
 
 	auto s1 = BRepLib_FindSurface(face1);

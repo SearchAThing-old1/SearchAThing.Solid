@@ -42,61 +42,25 @@
 
 #include "Stdafx.h"
 
-#include <gp_Pnt.hxx>
-
 using namespace System;
-using namespace System::Globalization;
+
+#include <BRepTools.hxx>
+
+#include "TopoDS_Face.h"
 
 namespace SearchAThing::Solid::Wrapper {
 
-	public ref class gp_Pnt
+	public ref class BRepTools abstract sealed
 	{
 
 	public:
-		gp_Pnt()
+
+		static void UVBounds(TopoDS_Face^ face, double% umin, double% umax, double% vmin, double% vmax)
 		{
-			impl = new ::gp_Pnt();
+			double _umin, _umax, _vmin, _vmax;
+			::BRepTools::UVBounds(*face->ObjRef(), _umin, _umax, _vmin, _vmax);
+			umin = _umin; umax = _umax; vmin = _vmin; vmax = _vmax;			
 		}
-
-		gp_Pnt(::gp_Pnt *obj)
-		{
-			impl = obj;
-		}
-
-		gp_Pnt(const Standard_Real Xp, const Standard_Real Yp, const Standard_Real Zp)
-		{
-			impl = new ::gp_Pnt(Xp, Yp, Zp);
-		}
-
-		~gp_Pnt()
-		{						
-			MyUtil::ReleaseInstance(this, &impl);
-		}
-
-		::gp_Pnt *ObjRef()
-		{
-			return impl;
-		}
-
-		double X() { return impl->X(); }
-		double Y() { return impl->Y(); }
-		double Z() { return impl->Z(); }
-
-		virtual String^ ToString() override
-		{
-			auto sb = gcnew System::Text::StringBuilder();
-			sb->AppendFormat(CultureInfo::InvariantCulture, "({0:0.####},{1:0.####},{2:0.####})", impl->X(), impl->Y(), impl->Z());
-			return sb->ToString();
-		}
-
-	protected:
-		!gp_Pnt()
-		{	
-			MyUtil::ReleaseInstance(this, &impl);
-		}
-
-	private:		
-		::gp_Pnt *impl;
 
 	};
 

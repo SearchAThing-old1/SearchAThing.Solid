@@ -78,6 +78,18 @@
     <ClInclude Include="MyUtil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GeomLProp_SLProps.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gp_Dir.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BRepTools.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BRepOffset_Offset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SearchAThing.Solid.Wrapper.cpp">

@@ -42,61 +42,42 @@
 
 #include "Stdafx.h"
 
-#include <gp_Pnt.hxx>
+#include <BRepOffset_Offset.hxx>
+#include <TopoDS_Face.hxx>
 
-using namespace System;
-using namespace System::Globalization;
+#include "TopoDS_Face.h"
 
 namespace SearchAThing::Solid::Wrapper {
 
-	public ref class gp_Pnt
+	public ref class BRepOffset_Offset
 	{
 
 	public:
-		gp_Pnt()
+		BRepOffset_Offset(TopoDS_Face^ face, double offset)
 		{
-			impl = new ::gp_Pnt();
+			impl = new ::BRepOffset_Offset(*face->ObjRef(), offset);
 		}
 
-		gp_Pnt(::gp_Pnt *obj)
+		~BRepOffset_Offset()
 		{
-			impl = obj;
-		}
-
-		gp_Pnt(const Standard_Real Xp, const Standard_Real Yp, const Standard_Real Zp)
-		{
-			impl = new ::gp_Pnt(Xp, Yp, Zp);
-		}
-
-		~gp_Pnt()
-		{						
 			MyUtil::ReleaseInstance(this, &impl);
 		}
 
-		::gp_Pnt *ObjRef()
+		TopoDS_Face^ Face()
 		{
-			return impl;
-		}
-
-		double X() { return impl->X(); }
-		double Y() { return impl->Y(); }
-		double Z() { return impl->Z(); }
-
-		virtual String^ ToString() override
-		{
-			auto sb = gcnew System::Text::StringBuilder();
-			sb->AppendFormat(CultureInfo::InvariantCulture, "({0:0.####},{1:0.####},{2:0.####})", impl->X(), impl->Y(), impl->Z());
-			return sb->ToString();
+			auto *tmp = new ::TopoDS_Face();
+			*tmp = impl->Face();
+			return gcnew TopoDS_Face(tmp);
 		}
 
 	protected:
-		!gp_Pnt()
-		{	
+		!BRepOffset_Offset()
+		{
 			MyUtil::ReleaseInstance(this, &impl);
 		}
 
-	private:		
-		::gp_Pnt *impl;
+	private:
+		::BRepOffset_Offset *impl;
 
 	};
 

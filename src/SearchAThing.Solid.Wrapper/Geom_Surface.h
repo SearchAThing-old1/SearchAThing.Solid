@@ -56,8 +56,7 @@ namespace SearchAThing::Solid::Wrapper {
 		}		
 
 		~Geom_Surface()
-		{
-			MyUtil::ReleaseInstance(this, &m_Impl);
+		{			
 		}
 
 		::Geom_Surface *ObjRef()
@@ -67,8 +66,7 @@ namespace SearchAThing::Solid::Wrapper {
 
 	protected:
 		!Geom_Surface()
-		{
-			MyUtil::ReleaseInstance(this, &m_Impl);
+		{			
 		}
 
 	private:		

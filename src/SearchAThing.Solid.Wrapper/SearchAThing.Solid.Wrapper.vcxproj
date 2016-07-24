@@ -161,10 +161,14 @@
     <ClInclude Include="BRepBuilderAPI_Command.h" />
     <ClInclude Include="BRepBuilderAPI_MakeShape.h" />
     <ClInclude Include="BRepLib_FindSurface.h" />
+    <ClInclude Include="BRepOffset_Offset.h" />
+    <ClInclude Include="BRepTools.h" />
     <ClInclude Include="BRep_Tool.h" />
     <ClInclude Include="GeomAPI_IntSS.h" />
+    <ClInclude Include="GeomLProp_SLProps.h" />
     <ClInclude Include="Geom_Curve.h" />
     <ClInclude Include="Geom_Surface.h" />
+    <ClInclude Include="gp_Dir.h" />
     <ClInclude Include="IGESControl_Controller.h" />
     <ClInclude Include="IGESControl_Writer.h" />
     <ClInclude Include="MyUtil.h" />

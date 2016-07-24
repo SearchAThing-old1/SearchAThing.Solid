@@ -1,4 +1,4 @@
-#pragma region SearchAThing.Solid, Copyright(C) 2016 Lorenzo Delana, License under MIT
+﻿#region SearchAThing.Solid, Copyright(C) 2016 Lorenzo Delana, License under MIT
 /*
 * Thirdy Part Components
 * ======================
@@ -36,68 +36,29 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 * DEALINGS IN THE SOFTWARE.
 */
-#pragma endregion
+#endregion
 
-#pragma once
+using SearchAThing.Sci;
+using SearchAThing.Solid.Wrapper;
 
-#include "Stdafx.h"
+namespace SearchAThing.Solid
+{
 
-#include <gp_Pnt.hxx>
+    public static partial class Toolkit
+    {
 
-using namespace System;
-using namespace System::Globalization;
 
-namespace SearchAThing::Solid::Wrapper {
 
-	public ref class gp_Pnt
-	{
+    }
 
-	public:
-		gp_Pnt()
-		{
-			impl = new ::gp_Pnt();
-		}
+    public static partial class Extensions
+    {
 
-		gp_Pnt(::gp_Pnt *obj)
-		{
-			impl = obj;
-		}
+        public static GeomLProp_SLProps LProp_SLProps(this Geom_Surface surface, UVBounds uvBounds, double N = 1.0, double res = 1e-1)
+        {
+            return new GeomLProp_SLProps(surface, uvBounds.UMin, uvBounds.VMin, N, res);
+        }
 
-		gp_Pnt(const Standard_Real Xp, const Standard_Real Yp, const Standard_Real Zp)
-		{
-			impl = new ::gp_Pnt(Xp, Yp, Zp);
-		}
-
-		~gp_Pnt()
-		{						
-			MyUtil::ReleaseInstance(this, &impl);
-		}
-
-		::gp_Pnt *ObjRef()
-		{
-			return impl;
-		}
-
-		double X() { return impl->X(); }
-		double Y() { return impl->Y(); }
-		double Z() { return impl->Z(); }
-
-		virtual String^ ToString() override
-		{
-			auto sb = gcnew System::Text::StringBuilder();
-			sb->AppendFormat(CultureInfo::InvariantCulture, "({0:0.####},{1:0.####},{2:0.####})", impl->X(), impl->Y(), impl->Z());
-			return sb->ToString();
-		}
-
-	protected:
-		!gp_Pnt()
-		{	
-			MyUtil::ReleaseInstance(this, &impl);
-		}
-
-	private:		
-		::gp_Pnt *impl;
-
-	};
+    }
 
 }
