@@ -64,6 +64,10 @@ namespace SearchAThing.Solid.Example02
             writer.AddShape(face);
             writer.AddShape(face.Offset(5, new Vector3D(0, 0, 1)));
             writer.AddShape(face.Offset(15, new Vector3D(0, 0, -1)));
+            
+            var tr = new gp_Trsf();
+            tr.SetScale(new gp_Pnt(0, 0, 0), .5);
+            writer.AddShape(new BRepBuilderAPI_Transform(face, tr, true).Shape());
 
             writer.ComputeModel();
             writer.Write("MyFile.igs");

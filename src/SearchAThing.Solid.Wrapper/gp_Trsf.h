@@ -1,4 +1,4 @@
-﻿#region SearchAThing.Solid, Copyright(C) 2016 Lorenzo Delana, License under MIT
+#pragma region SearchAThing.Solid, Copyright(C) 2016 Lorenzo Delana, License under MIT
 /*
 * Thirdy Part Components
 * ======================
@@ -36,49 +36,59 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 * DEALINGS IN THE SOFTWARE.
 */
-#endregion
+#pragma endregion
 
-using SearchAThing.Sci;
-using SearchAThing.Solid.Wrapper;
-using System;
-using System.Diagnostics;
-using System.Text;
+#pragma once
 
-namespace SearchAThing.Solid.Example01
-{
+#include "Stdafx.h"
 
-    class Program
-    {
+#include "gp_pnt.h"
 
-        static void Main(string[] args)
-        {
-            IGESControl_Controller.Init();
-            var writer = new IGESControl_Writer("MM", 0);
+#include <gp_Trsf.hxx>
 
-            var face1 = Toolkit.FromEdges(
-                new Line3D(new Vector3D(-10, 0, 0), new Vector3D(20, 0, 0)),
-                new Line3D(new Vector3D(-10, 10, 0), new Vector3D(20, 10, 15)));
+using namespace System;
+using namespace System::Globalization;
 
-            writer.AddShape(face1);
+namespace SearchAThing::Solid::Wrapper {
 
-            var face2 = Toolkit.FromEdges(
-                new Line3D(new Vector3D(7.5, -5, -5), new Vector3D(7.5, 15, -5)),
-                new Line3D(new Vector3D(7.5, -5, 15), new Vector3D(7.5, 15, 15)));
+	public ref class gp_Trsf
+	{
 
-            writer.AddShape(face2);
+	public:
+		gp_Trsf()
+		{
+			impl = new ::gp_Trsf();
+		}
 
-            var iLine = face1.IntersectLine(face2, 1e-1);
+		gp_Trsf(::gp_Trsf *obj)
+		{
+			impl = obj;
+		}		
 
-            Console.WriteLine($"Intersection line = {iLine.IntersectionLine}");
+		~gp_Trsf()
+		{						
+			MyUtil::ReleaseInstance(this, &impl);
+		}
 
-            writer.AddGeom(iLine.Curve.This());
-            writer.ComputeModel();
+		::gp_Trsf *ObjRef()
+		{
+			return impl;
+		}			 
 
-            writer.Write("MyFile.igs");
+		void SetScale(gp_Pnt^ center, double factor)
+		{
+			impl->SetScale(*center->ObjRef(), factor);
+		}
 
-            Process.Start(AppDomain.CurrentDomain.BaseDirectory);
-        }
+	protected:
+		!gp_Trsf()
+		{	
+			MyUtil::ReleaseInstance(this, &impl);
+		}
 
-    }
+	private:		
+		::gp_Trsf *impl;
+
+	};
 
 }

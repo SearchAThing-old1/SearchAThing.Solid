@@ -90,6 +90,15 @@
     <ClInclude Include="BRepOffset_Offset.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="gp_Trsf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BRepBuilderAPI_Transform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BRepBuilderAPI_ModifyShape.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SearchAThing.Solid.Wrapper.cpp">

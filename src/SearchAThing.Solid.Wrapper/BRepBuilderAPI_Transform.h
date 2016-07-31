@@ -1,4 +1,4 @@
-﻿#region SearchAThing.Solid, Copyright(C) 2016 Lorenzo Delana, License under MIT
+#pragma region SearchAThing.Solid, Copyright(C) 2016 Lorenzo Delana, License under MIT
 /*
 * Thirdy Part Components
 * ======================
@@ -36,49 +36,53 @@
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 * DEALINGS IN THE SOFTWARE.
 */
-#endregion
+#pragma endregion
 
-using SearchAThing.Sci;
-using SearchAThing.Solid.Wrapper;
-using System;
-using System.Diagnostics;
-using System.Text;
+#pragma once
 
-namespace SearchAThing.Solid.Example01
-{
+#include "Stdafx.h"
 
-    class Program
-    {
+#include "BRepBuilderAPI_ModifyShape.h"
+#include "TopoDS_Shape.h"
+#include "gp_Trsf.h"
 
-        static void Main(string[] args)
-        {
-            IGESControl_Controller.Init();
-            var writer = new IGESControl_Writer("MM", 0);
+#include <TopoDS_Shape.hxx>
+#include <BRepBuilderAPI_Transform.hxx>
 
-            var face1 = Toolkit.FromEdges(
-                new Line3D(new Vector3D(-10, 0, 0), new Vector3D(20, 0, 0)),
-                new Line3D(new Vector3D(-10, 10, 0), new Vector3D(20, 10, 15)));
+using namespace System;
 
-            writer.AddShape(face1);
+namespace SearchAThing::Solid::Wrapper {
 
-            var face2 = Toolkit.FromEdges(
-                new Line3D(new Vector3D(7.5, -5, -5), new Vector3D(7.5, 15, -5)),
-                new Line3D(new Vector3D(7.5, -5, 15), new Vector3D(7.5, 15, 15)));
+	public ref class BRepBuilderAPI_Transform : BRepBuilderAPI_ModifyShape
+	{
 
-            writer.AddShape(face2);
+	public:
+		BRepBuilderAPI_Transform(TopoDS_Shape^ shape, gp_Trsf^ tr, bool copy) : BRepBuilderAPI_ModifyShape()
+		{
+			m_Impl = new ::BRepBuilderAPI_Transform(*shape->ObjRef(), *tr->ObjRef(), copy);
+		}
 
-            var iLine = face1.IntersectLine(face2, 1e-1);
+		~BRepBuilderAPI_Transform()
+		{
+			MyUtil::ReleaseInstance(this, &m_Impl);
+		}
 
-            Console.WriteLine($"Intersection line = {iLine.IntersectionLine}");
+		TopoDS_Shape^ Shape()
+		{
+			::TopoDS_Shape *sh = new ::TopoDS_Shape();
+			*sh = m_Impl->Shape();
+			return gcnew TopoDS_Shape(sh);
+		}
 
-            writer.AddGeom(iLine.Curve.This());
-            writer.ComputeModel();
+	protected:
+		!BRepBuilderAPI_Transform()
+		{
+			MyUtil::ReleaseInstance(this, &m_Impl);
+		}
 
-            writer.Write("MyFile.igs");
+	private:
+		::BRepBuilderAPI_Transform *m_Impl;
 
-            Process.Start(AppDomain.CurrentDomain.BaseDirectory);
-        }
-
-    }
+	};
 
 }

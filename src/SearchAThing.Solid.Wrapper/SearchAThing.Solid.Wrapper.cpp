@@ -6,6 +6,8 @@
 #include "gp_Dir.h"
 #include "BRepBuilderAPI_MakeEdge.h"
 #include "BRepBuilderAPI_MakeShape.h"
+#include "BRepBuilderAPI_ModifyShape.h"
+#include "BRepBuilderAPI_Transform.h"
 #include "BRepBuilderAPI_Command.h"
 #include "TopoDS_Vertex.h"
 #include "TopoDS_Face.h"
@@ -22,3 +24,4 @@
 #include "GeomLProp_SLProps.h"
 #include "BRepTools.h"
 #include "BRepOffset_Offset.h"
+#include "gp_Trsf.h"

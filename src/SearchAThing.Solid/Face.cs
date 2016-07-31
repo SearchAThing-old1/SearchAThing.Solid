@@ -102,6 +102,32 @@ namespace SearchAThing.Solid
             return new BRepLib_FindSurface(face).Surface();
         }
 
+        public static FaceIntersectionLineResult IntersectLine(this TopoDS_Face face, TopoDS_Face other, double tol)
+        {
+            var s1 = face.Surface();
+            var s2 = other.Surface();
+            var a = new GeomAPI_IntSS(s1, s2, tol);
+            var C = a.Line(1);
+            var edge = new BRepBuilderAPI_MakeEdge(C, C.FirstParameter(), C.LastParameter());
+            var v1 = edge.Vertex1();
+            var v2 = edge.Vertex2();
+            var i1 = BRep_Tool.Pnt(v1);
+            var i2 = BRep_Tool.Pnt(v2);
+            return new FaceIntersectionLineResult(C, new Line3D(i1.ToVector3D(), i2.ToVector3D()));
+        }
+
+    }
+
+    public class FaceIntersectionLineResult
+    {
+        public Geom_Curve Curve { get; private set; }
+        public Line3D IntersectionLine { get; private set; }
+
+        public FaceIntersectionLineResult(Geom_Curve curve, Line3D intersectionLine)
+        {
+            Curve = curve;
+            IntersectionLine = intersectionLine;
+        }
     }
 
 }
