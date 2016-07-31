@@ -57,7 +57,7 @@ namespace SearchAThing::Solid::Wrapper {
 
 		~Standard_Transient()
 		{
-			MyUtil::ReleaseInstance(this, &m_Impl);
+//			MyUtil::ReleaseInstance(this, &m_Impl);
 		}
 
 		::Standard_Transient *ObjRef()
@@ -68,7 +68,7 @@ namespace SearchAThing::Solid::Wrapper {
 	protected:
 		!Standard_Transient()
 		{
-			MyUtil::ReleaseInstance(this, &m_Impl);
+	//		MyUtil::ReleaseInstance(this, &m_Impl);
 		}
 
 	private:
