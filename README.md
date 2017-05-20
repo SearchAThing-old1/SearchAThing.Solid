@@ -114,8 +114,9 @@ Before you start with use of this library you need to:
         - if use the distribution libraries (w/out debug symbol) : `C:\occt-amd64\win64\vc14\libd`
         - if use a built from source version : `C:\occt-amd64\win64\vc14\libd`
     - Linker -> Input -> Additional Dependencies :
-    ```
-    FWOSPlugin.lib
+    
+```
+FWOSPlugin.lib
 TKBin.lib
 TKBinL.lib
 TKBinTObj.lib
