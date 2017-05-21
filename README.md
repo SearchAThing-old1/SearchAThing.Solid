@@ -109,14 +109,13 @@ Before you start with use of this library you need to:
 
 ### Setup the solution configuration
 - adjust reference libreries on the `SearchAThing.Solid.Wrapper` library in the Property Page :
-    - C/C++ -> Additional Include Directories ( `C:\OpenCASCADE7.0.0-vc12-64\opencascade-7.0.0\inc` )
+    - C/C++ -> Additional Include Directories ( `C:\OpenCASCADE7.1.0-vc10-64\opencascade-7.1.0\inc` )
     - Linker -> Additional Library Directories
-        - if use the distribution libraries (w/out debug symbol) : `C:\occt-amd64\win64\vc14\libd`
+        - if use the distribution libraries (w/out debug symbol) : `C:\OpenCASCADE7.1.0-vc10-64\opencascade-7.1.0\win64\vc10\lib`
         - if use a built from source version : `C:\occt-amd64\win64\vc14\libd`
     - Linker -> Input -> Additional Dependencies :
     
 ```
-FWOSPlugin.lib
 TKBin.lib
 TKBinL.lib
 TKBinTObj.lib
@@ -126,7 +125,6 @@ TKBool.lib
 TKBRep.lib
 TKCAF.lib
 TKCDF.lib
-TKD3DHost.lib
 TKDCAF.lib
 TKDraw.lib
 TKernel.lib
@@ -138,8 +136,6 @@ TKGeomAlgo.lib
 TKGeomBase.lib
 TKHLR.lib
 TKIGES.lib
-TKIVtk.lib
-TKIVtkDraw.lib
 TKLCAF.lib
 TKMath.lib
 TKMesh.lib
@@ -178,20 +174,7 @@ TKXSBase.lib
 TKXSDRAW.lib
 ```
 
-- Setup C# dll libraries using follow Property -> Build Events -> Pre-build event command line :
-    
-```
-echo "Copy reference dlls..."
-xcopy /d /y C:\OpenCASCADE7.0.0-vc12-64\opencascade-7.0.0\win64\vc12\bin\*.* $(TargetDir)
-xcopy /d /y C:\OpenCASCADE7.0.0-vc12-64\tbb42_20140416oss\bin\intel64\vc12\*.dll $(TargetDir)
-xcopy /d /y C:\OpenCASCADE7.0.0-vc12-64\tbb42_20140416oss\bin\intel64\vc12\irml\*.dll $(TargetDir)
-xcopy /d /y C:\OpenCASCADE7.0.0-vc12-64\freeimage-3.17.0-vc12-64\bin\*.dll $(TargetDir)
-xcopy /d /y C:\OpenCASCADE7.0.0-vc12-64\freetype-2.5.5-vc12-64\bin\*.dll $(TargetDir)
-xcopy /d /y C:\OpenCASCADE7.0.0-vc12-64\gl2ps-1.3.8-vc12-64\bin\*.dll $(TargetDir)
-xcopy /d /y C:\OpenCASCADE7.0.0-vc12-64\tcltk-86-64\bin\*.dll $(TargetDir)
-xcopy /d /y C:\OpenCASCADE7.0.0-vc12-64\vtk-6.1.0-vc12-64\bin\*.dll $(TargetDir)
-echo "done."
-```
+- Setup environment variable PATH to point `C:\occt-amd64\win64\vc14\bind` bind folder through control panel set env var, then restart visual studio
 
 - Enable **native code debugging** in your C# Project Properties -> Debug to enable debug of C++ code from `SearchAThing.Solid.Wrapper`
 
@@ -201,10 +184,10 @@ echo "done."
 
 In order to build a distribution with debugging symbol useful to coding you need to install CMake-3.6 and start the GUI then choose:
 
-- Where is the source code : `C:\OpenCASCADE7.0.0-vc12-64\opencascade-7.0.0`
+- Where is the source code : `C:\OpenCASCADE7.1.0-vc10-64\opencascade-7.1.0`
 - Where to build the binaries : `c:\occt-amd64`
 - Start the Configure a first time and a set of RED will appears, now sets:
-    - 3RDPARTY_DIR : `C:/OpenCASCADE7.0.0-vc12-64`
+    - 3RDPARTY_DIR : `C:\OpenCASCADE7.1.0-vc10-64`
     - enable modules you want to include
     - retry Configure until all reds goes away
 - Start the Generate and choose `Visual Studio 14 2015 Win64`
