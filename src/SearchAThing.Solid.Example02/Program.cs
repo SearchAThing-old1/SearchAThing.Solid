@@ -44,6 +44,12 @@ using System;
 using System.Diagnostics;
 using System.Text;
 
+//
+// note on dll search path
+// -----------------------
+// to run this program must set PATH=%PATH%;C:\occt-amd64\win64\vc14\bind
+//
+
 namespace SearchAThing.Solid.Example02
 {
 

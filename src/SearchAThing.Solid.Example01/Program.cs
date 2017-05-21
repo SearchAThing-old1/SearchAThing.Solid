@@ -42,7 +42,15 @@ using SearchAThing.Sci;
 using SearchAThing.Solid.Wrapper;
 using System;
 using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using System.Text;
+
+//
+// note on dll search path
+// -----------------------
+// to run this program must set PATH=%PATH%;C:\occt-amd64\win64\vc14\bind
+//
 
 namespace SearchAThing.Solid.Example01
 {
