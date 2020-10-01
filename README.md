@@ -1,4 +1,4 @@
-# SearchAThing.Solid
+# SearchingThing.Solid
 
 C# Interfacing of [OpenCascade](http://www.opencascade.com/) 3d kernel.
 
